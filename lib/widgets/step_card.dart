@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/health_provider.dart';
-// Ensure healthNotifierProvider is exported from health_provider.dart
 
 class StepCard extends ConsumerWidget {
   const StepCard({super.key});

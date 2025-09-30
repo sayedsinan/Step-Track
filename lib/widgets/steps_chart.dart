@@ -87,10 +87,10 @@ class _StepsChartState extends State<StepsChart> {
     final records = _getFilteredRecords();
     if (records.isEmpty) return;
 
-    // Simple hit detection - find closest point
+  
     setState(() {
       _tooltipPosition = position;
-      // This is simplified - the painter will calculate the actual closest record
+     
     });
   }
 }
@@ -102,7 +102,6 @@ class StepsChartPainter extends CustomPainter {
   final Offset? tooltipPosition;
   final StepRecord? tooltipRecord;
 
-  // Reusable paint objects (no per-frame allocations)
   static final _linePaint = Paint()
     ..color = Colors.blue
     ..strokeWidth = 2
@@ -173,10 +172,10 @@ class StepsChartPainter extends CustomPainter {
       return;
     }
 
-    // Decimation: reduce points if too many
+
     final decimatedRecords = _decimateRecords(records, 500);
 
-    // Draw line chart
+
     final path = Path();
     bool firstPoint = true;
 
@@ -194,18 +193,16 @@ class StepsChartPainter extends CustomPainter {
         path.lineTo(x, y);
       }
 
-      // Draw point
       canvas.drawCircle(Offset(x, y), 3, _pointPaint);
     }
 
     canvas.drawPath(path, _linePaint);
 
-    // Draw axes labels
     _drawAxes(canvas, size, padding, minSteps, maxSteps, minTime, maxTime);
 
     canvas.restore();
 
-    // Draw tooltip if position is set
+   
     if (tooltipPosition != null) {
       _drawTooltip(canvas, size, tooltipPosition!);
     }
@@ -229,7 +226,7 @@ class StepsChartPainter extends CustomPainter {
   }
 
   void _drawGrid(Canvas canvas, Size size, double padding) {
-    // Draw horizontal grid lines
+ 
     for (int i = 0; i <= 5; i++) {
       final y = padding + (size.height - padding * 2) * i / 5;
       canvas.drawLine(
@@ -239,7 +236,7 @@ class StepsChartPainter extends CustomPainter {
       );
     }
 
-    // Draw vertical grid lines
+
     for (int i = 0; i <= 5; i++) {
       final x = padding + (size.width - padding * 2) * i / 5;
       canvas.drawLine(
@@ -252,7 +249,7 @@ class StepsChartPainter extends CustomPainter {
 
   void _drawAxes(Canvas canvas, Size size, double padding, int minSteps, 
       int maxSteps, int minTime, int maxTime) {
-    // Y-axis labels (steps)
+  
     for (int i = 0; i <= 5; i++) {
       final value = minSteps + (maxSteps - minSteps) * i / 5;
       final y = size.height - padding - (size.height - padding * 2) * i / 5;
@@ -265,7 +262,6 @@ class StepsChartPainter extends CustomPainter {
       _textPainter.paint(canvas, Offset(5, y - _textPainter.height / 2));
     }
 
-    // X-axis labels (time)
     for (int i = 0; i <= 5; i++) {
       final time = DateTime.fromMillisecondsSinceEpoch(
         minTime + (maxTime - minTime) * i ~/ 5,
@@ -287,7 +283,6 @@ class StepsChartPainter extends CustomPainter {
   void _drawTooltip(Canvas canvas, Size size, Offset position) {
     if (records.isEmpty) return;
 
-    // Find closest record to tap position
     StepRecord? closest;
     double minDistance = double.infinity;
 
@@ -311,7 +306,7 @@ class StepsChartPainter extends CustomPainter {
 
     if (closest == null) return;
 
-    // Draw tooltip
+
     final text = '${closest.count} steps\n${TimestampUtils.formatTime(closest.timestamp)}';
     _textPainter.text = TextSpan(
       text: text,
@@ -355,12 +350,12 @@ class StepsChartPainter extends CustomPainter {
 
   void _recordPaintTime(DateTime startTime) {
     final paintTime = DateTime.now().difference(startTime);
-    // Access the global performance HUD if available
+    
     try {
       final hud = performanceHUDKey.currentState;
       hud?.recordPaintTime(paintTime);
     } catch (_) {
-      // HUD not available, ignore
+    
     }
   }
 
