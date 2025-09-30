@@ -195,12 +195,12 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             if (simState.isEnabled) const SizedBox(height: 16),
             Row(
               children: [
-                // Expanded(
-                //   child: StepCard(
-                //     steps: healthState.todaySteps,
-                //     subtitle: healthState.isPolling ? 'Live' : 'Today',
-                //   ),
-                // ),
+                Expanded(
+                  child: StepCard(
+                    // steps: healthState.todaySteps,
+                    // subtitle: healthState.isPolling ? 'Live' : 'Today',
+                  ),
+                ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: HRCard(
